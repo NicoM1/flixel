@@ -322,59 +322,23 @@ class FlxTilemap extends FlxObject
 			while (row < heightInTiles)
 			{
 				columns = rows[row++].split(",");
-				
+
 				if (columns.length <= 1)
 				{
-					heightInTiles--;
-					
-					if (columns.length == 1) //if a row only has one section of text
-					{
-						var isSpaces:EReg = ~/^[ ]*\r?$/; //check that the text is only spaces
-						if (isSpaces.match(columns[0]))
-						{
-							continue; //skip this row if its empty
-							//this ensures no data is allowed to get through simply because it is not separated by commas
-						}
-					}
-					else //if the row is empty, skip it
-					{
-						continue;
-					}
+					heightInTiles = heightInTiles - 1;
+					continue;
 				}
 				if (widthInTiles == 0)
 				{
 					widthInTiles = columns.length;
 				}
 				column = 0;
-				
+
 				while (column < widthInTiles)
 				{
-					//the current character in the column:
-					var curChar:String = columns[column];
-					
-					//regular expresson to check if value can be parsed as a number:
-					var isNumeric:EReg = ~/^[ ]*[-0-9]+[ ]*\r?$/;
-					
-					//if value is can be parsed, add to map
-					if (isNumeric.match(curChar))
-					{
-						_data.push(Std.parseInt(curChar));	
-						column++;
-					}
-					else
-					{
-						var isLineEnd:EReg = ~/^[ ]*\r[ ]*$/;
-						if (isLineEnd.match(curChar) || curChar.length == 0)
-						{
-							widthInTiles--;
-						}
-						else
-						{
-							//if the value was not a number, warn the user
-							throw "value passed in map: (" + curChar + ") at: " + row + " " + column + " was not a valid number";
-						}
-					}	
+					_data.push(Std.parseInt(columns[column++]));
 				}
+			}
 			}
 		}
 		// Data is already set up as an Array<Int>
