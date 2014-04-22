@@ -24,6 +24,7 @@ import flixel.util.FlxRect;
 import flixel.util.FlxSpriteUtil;
 import flixel.util.loaders.CachedGraphics;
 import flixel.util.loaders.TextureRegion;
+import flixel.util.FlxStringUtil;
 
 @:bitmap("assets/images/tile/autotiles.png")
 class GraphicAuto extends BitmapData {}
@@ -310,6 +311,7 @@ class FlxTilemap extends FlxObject
 		// Populate data if MapData is a CSV string
 		if (Std.is(MapData, String))
 		{
+			MapData = FlxStringUtil.cleanCSV(MapData);//clean and check csv data
 			// Figure out the map dimensions based on the data string
 			_data = new Array<Int>();
 			var columns:Array<String>;
@@ -338,7 +340,6 @@ class FlxTilemap extends FlxObject
 				{
 					_data.push(Std.parseInt(columns[column++]));
 				}
-			}
 			}
 		}
 		// Data is already set up as an Array<Int>

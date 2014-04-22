@@ -532,6 +532,23 @@ class FlxStringUtil
 		output = output.substr(0, output.length - 2).trim();
 		return (output + ")");
 	}
+	
+	public static function cleanCSV(csv : String):String
+	{
+		var cleanCSV = csv;
+		var isValid:EReg = ~/^[ ]*([0-9],?)+[ ]*\r?\n?$/m;
+		if (isValid.match(cleanCSV))
+		{
+			cleanCSV = cleanCSV.replace("\r", "");
+			cleanCSV = cleanCSV.replace(",\n", "\n");
+		}
+		else
+		{
+			throw "invalid csv data";
+		}
+		
+		return cleanCSV;
+	}
 }
 
 class LabelValuePair implements IFlxDestroyable
